@@ -1,0 +1,19 @@
+#!/bin/bash
+echo "THIS IS GOING TO WIPE YOUR CHEF DATABASE. You have 30 seconds to abort"
+echo "with ctrl-c"
+sleep 30
+
+
+echo "$POSTGRES_FQDN:$POSTGRES_SERVICE_PORT:chef:chef:$POSTGRES_PASSWORD" > ~/.pgpass
+chmod 0600 ~/.pgpass
+psql -h $POSTGRES_FQDN -U chef <<EOF
+drop database bifrost;
+drop database oc_id;
+drop database opscode_chef;
+drop role bifrost;
+drop role bifrost_ro;
+drop role oc_id;
+drop role oc_id_ro;
+drop role opscode_chef;
+drop role opscode_chef_ro;
+EOF
