@@ -1,0 +1,21 @@
+#!/opt/opscode/embedded/bin/ruby
+require 'k8s-client'
+
+FILES={
+  pivotal: '/etc/opscode/pivotal.pem',
+  private_chef_secrets: '/etc/opscode/private-chef-secrets.json'
+}
+
+def to_disk(fn, data)
+  File.open(fn).write(Base64.decode64(data))
+end
+
+begin
+  client = K8s::Client.in_cluster_config
+  secrets = client.api('v1').resource('secrets', namespace: ARGV[1]).get(ARGV[2])
+  FILES.map { |secret,dest|  to_disk(dest, secrets['data'][secret]) }
+rescue K8s::Error::NotFound
+  exit 1
+end
+
+
