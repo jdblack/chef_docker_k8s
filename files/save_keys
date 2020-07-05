@@ -7,12 +7,12 @@ FILES={
 }
 
 def build_secret(ns, name, keys)
-  {
+  K8s::Resource.new(
     apiVersion: 'v1',
     kind: 'Secret',
     metadata: { namespace: ns, name: name, },
-    data: keys.map {|k,v| [k,Base64.encode64(v)]}.to_h
-  }
+    data: keys )
+
 end
 
 def read_file(filename)
@@ -22,6 +22,6 @@ end
 begin
   client = K8s::Client.in_cluster_config
   secrets = FILES.map {|key, file| [key, read_file(file)] }.to_h
-  seq_req = build_secret(ARGV[1], ARGV[2], secrets)
-  client.api('v1').resource('secrets').create_resource(seq_req)
+  seq_req = build_secret(ARGV[0], ARGV[1], secrets)
+  client.api('v1').resource('secrets', namespace: ARGV[0]).create_resource(seq_req)
 end

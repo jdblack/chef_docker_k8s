@@ -7,7 +7,7 @@ FILES={
 }
 
 def to_disk(fn, data)
-  File.open(fn).write(Base64.decode64(data))
+  File.open(fn,"w").write(Base64.decode64(data))
 end
 
 begin

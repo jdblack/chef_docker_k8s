@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # runit needs to be running before chef-server-ctl reconfigure in docker
 # runit is not already running https://github.com/chef/chef-server/issues/62
@@ -6,17 +6,24 @@ export PATH=/opt/opscode/bin:/opt/opscode/bin/embedded:$PATH
 /opt/opscode/embedded/bin/runsvdir-start &
 
 # Get chef configuration ready
-ln -s /opt/docker/chef-server.rb /etc/opscode
+ln -sf /opt/docker/chef-server.rb /etc/opscode
 
 # reconfigure insists on being able to touch the certs for perms so we
 # copy them to a place where it can. Getting the smell right kind of breaks
 # cert rotation, but you know how opinionated chef can be on its stack...
 cp -a /var/local/certs/..data/ /etc/opscode/certs
 
-# Deal with touching bootstrapped
-# chef-server-ctl reconfigure
+/opt/docker/load_keys $NAMESPACE $BACKEND_KEYS
+if [ $? -eq 0 ]; then # Not the first
+  # touch boostrap
+  chef-server-ctl reconfigure
+else # We are the first
+  chef-server-ctl reconfigure
+  /opt/docker/save_keys $NAMESPACE $BACKEND_KEYS
 
-while true; do
+fi
+
+while true; do # show the chef server logs in an endlees loop
   chef-server-ctl tail -f || echo "No logs?!?"
   sleep 20
 done
