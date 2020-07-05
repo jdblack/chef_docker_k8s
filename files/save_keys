@@ -16,12 +16,12 @@ def build_secret(ns, name, keys)
 end
 
 def read_file(filename)
-  Base64.encode64(File.Read filename)
+  Base64.encode64(File.read filename)
 end
 
 begin
   client = K8s::Client.in_cluster_config
-  secrets = FILE.map {|key, file| [key, read_file(file)] }.to_h
+  secrets = FILES.map {|key, file| [key, read_file(file)] }.to_h
   seq_req = build_secret(ARGV[1], ARGV[2], secrets)
   client.api('v1').resource('secrets').create_resource(seq_req)
 end

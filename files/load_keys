@@ -12,7 +12,7 @@ end
 
 begin
   client = K8s::Client.in_cluster_config
-  secrets = client.api('v1').resource('secrets', namespace: ARGV[1]).get(ARGV[2])
+  secrets = client.api('v1').resource('secrets', namespace: ARGV[0]).get(ARGV[1])
   FILES.map { |secret,dest|  to_disk(dest, secrets['data'][secret]) }
 rescue K8s::Error::NotFound
   exit 1

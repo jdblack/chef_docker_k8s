@@ -17,8 +17,11 @@ bookshelf['storage_type'] = :sql
 
 # We rely on the external ES host for search
 opscode_solr4['external'] = true
-opscode_solr4['external_url'] = 'eshost'
-opscode_erchef['search_provider'] = ENV['ELASTICSEARCH_FQDN'] + ":9200"
+opscode_solr4['external_url'] = "http://#{ENV['ES_FQDN']}:9200"
+
+opscode_erchef['search_provider'] = 'elasticsearch'
 opscode_erchef['search_queue_mode'] = 'batch' # es requires batch
+
+
 opscode_expander['enable'] = false # expander doesnt work in batch mode
 
