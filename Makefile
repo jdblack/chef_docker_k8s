@@ -8,5 +8,5 @@ deploy: docker
 	docker push registry:5000/chef 
 
 run: docker
-	docker run --privileged -ti -d -p 443:443 chef /bin/bash
+	docker run -ti -d -p 443:443 chef /bin/bash
 
