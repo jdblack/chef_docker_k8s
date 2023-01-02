@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "THIS IS GOING TO WIPE YOUR CHEF DATABASE. You have 30 seconds to abort"
+echo "THIS IS GOING TO WIPE YOUR CINC DATABASE. You have 30 seconds to abort"
 echo "with ctrl-c"
 sleep 30
 

@@ -1,9 +1,9 @@
-#!/opt/opscode/embedded/bin/ruby
+#!/opt/cinc-project/embedded/bin/ruby
 require 'k8s-client'
 
 FILES={
-  pivotal: '/etc/opscode/pivotal.pem',
-  private_chef_secrets: '/etc/opscode/private-chef-secrets.json',
+  pivotal: '/etc/cinc-project/pivotal.pem',
+  private_chef_secrets: '/etc/cinc-project/private-chef-secrets.json',
 }
 
 def build_secret(ns, name, keys)

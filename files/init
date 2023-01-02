@@ -2,25 +2,25 @@
 
 # runit needs to be running before chef-server-ctl reconfigure in docker
 # runit is not already running https://github.com/chef/chef-server/issues/62
-export PATH=/opt/opscode/bin:/opt/opscode/bin/embedded:$PATH
-/opt/opscode/embedded/bin/runsvdir-start &
+export PATH=/opt/cinc-server/bin:/opt/cinc-server/bin/embedded:$PATH
+/opt/cinc-project/embedded/bin/runsvdir-start &
+
 
 # Get chef configuration ready
-ln -sf /opt/docker/chef-server.rb /etc/opscode
+ln -sf /opt/docker/cinc-server.rb /etc/cinc-project
 
 # reconfigure insists on being able to touch the certs for perms so we
 # copy them to a place where it can. Getting the smell right kind of breaks
 # cert rotation, but you know how opinionated chef can be on its stack...
-cp -a /var/local/certs/..data/ /etc/opscode/certs
+cp -a /var/local/certs/..data/ /etc/cinc-project/certs
 
 /opt/docker/load_keys $NAMESPACE $BACKEND_KEYS
 if [ $? -eq 0 ]; then # Not the first
   # touch boostrap
-  chef-server-ctl reconfigure
+  cinc-server-ctl reconfigure
 else # We are the first
-  chef-server-ctl reconfigure
+  cinc-server-ctl reconfigure
   /opt/docker/save_keys $NAMESPACE $BACKEND_KEYS
-
 fi
 
 while true; do # show the chef server logs in an endlees loop

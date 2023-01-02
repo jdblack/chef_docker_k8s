@@ -1,8 +1,8 @@
 api_fqdn ENV['CHEF_FQDN']
 
 # Use the copy of the certs that we dropped from secrets
-nginx['ssl_certificate']="/etc/opscode/certs/tls.crt"
-nginx['ssl_certificate_key']="/etc/opscode/certs/tls.key"
+nginx['ssl_certificate']="/etc/cinc-project/certs/tls.crt"
+nginx['ssl_certificate_key']="/etc/cinc-project/certs/tls.key"
 
 
 # Externalize the database
