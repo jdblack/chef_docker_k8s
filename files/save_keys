@@ -3,7 +3,7 @@ require 'k8s-client'
 
 FILES={
   pivotal: '/etc/cinc-project/pivotal.pem',
-  private_chef_secrets: '/etc/cinc-project/private-chef-secrets.json',
+  private_cinc_secrets: '/etc/cinc-project/private-cinc-secrets.json'
 }
 
 def build_secret(ns, name, keys)

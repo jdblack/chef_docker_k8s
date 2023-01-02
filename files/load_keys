@@ -2,8 +2,8 @@
 require 'k8s-client'
 
 FILES={
-  pivotal: '/etc/opscode/pivotal.pem',
-  private_chef_secrets: '/etc/opscode/private-chef-secrets.json'
+  pivotal: '/etc/cinc-project/pivotal.pem',
+  private_cinc_secrets: '/etc/cinc-project/private-cinc-secrets.json'
 }
 
 def to_disk(fn, data)

@@ -1,4 +1,4 @@
-api_fqdn ENV['CHEF_FQDN']
+api_fqdn ENV['CINC_FQDN']
 
 # Use the copy of the certs that we dropped from secrets
 nginx['ssl_certificate']="/etc/cinc-project/certs/tls.crt"
