@@ -24,10 +24,11 @@ POSTGRES\_PASSWORD : The password for the postgres admin account
 
 POSTGRES\_FQDN : Where to reach the postgres user
 
-ES\_FQDN : The hostname of the elasticsearch cluster that cinc can use. This is
-the hostname. Supplying a port is not yet supported
+SEARCH\_FQDN : The hostname of the opensearch cluster that cinc can use. This is the hostname. Supplying a port is not yet supported
 
-# Orchestration assumptions
+SEARCH\_USER : The user on the opensearch cluster
+
+SEARCH\_PASS : The user pass on opensearch
 
 This dockerfile has numerous assumptions, including the assumption that
 something is setting the following things up:

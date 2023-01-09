@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+if [[ "x$NORUN" != "x" ]];then  echo "Do nothing"; sleep 99999999d; fi
+
 # runit needs to be running before chef-server-ctl reconfigure in docker
 # runit is not already running https://github.com/chef/chef-server/issues/62
 export PATH=/opt/cinc-server/bin:/opt/cinc-server/bin/embedded:$PATH
@@ -13,10 +15,16 @@ ln -sf /opt/docker/cinc-server.rb /etc/cinc-project
 # copy them to a place where it can. Getting the smell right kind of breaks
 # cert rotation, but you know how opinionated chef can be on its stack...
 cp -a /var/local/certs/..data/ /etc/cinc-project/certs
+cp /var/local/certs/ca.crt  /usr/local/share/ca-certificates/
+update-ca-certificates
 
-/opt/docker/load_keys $NAMESPACE $BACKEND_KEYS
+
+/opt/docker/load_keys $NAMESPACE $BACKEND_KEYS 2> /dev/null
+
 if [ $? -eq 0 ]; then # Not the first
-  # touch boostrap
+  mkdir -p /var/opt/cinc-project
+  date > /var/opt/cinc-project/bootstrapped
+
   cinc-server-ctl reconfigure
 else # We are the first
   cinc-server-ctl reconfigure
