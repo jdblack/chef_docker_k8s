@@ -13,7 +13,7 @@ failing to exteralize will result in inconsistent clusters, as each search
 would only get updates from its associated API server.  
 
 ```mermaid
-graph TD;
+graph LR;
     A{Cinc LB} -->|Cinc Client API Requests| B{n* Cinc API Servers}
        B --> | Persistent Store| C{Externalized Postgres}
        B --> | Search Indexing| D{OpenSearch LB}
