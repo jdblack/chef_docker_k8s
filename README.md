@@ -6,6 +6,20 @@ Postgres and replacing Solr with an external Elasticsearch cluster. Lastly,
 we escrow the API server's  pivotal.pem and private-cinc-secrets within a 
 kubernetes secret.
 
+Scaling out to multiple API servers requires externalizing the postgres
+database and the Opensearch Cluster.  Externalizing the postgres server
+makes intuitive sense. The need to externalize search is less obvious, but
+failing to exteralize will result in inconsistent clusters, as each search
+would only get updates from its associated API server.  
+
+```mermaid
+graph TD;
+    A{Cinc LB} -->|Cinc Client API Requests| B{n* Cinc API Servers}
+       B --> | Persistent Store| C{Externalized Postgres}
+       B --> | Search Indexing| D{OpenSearch LB}
+    D --> E{OpenSearch Cluster}
+```
+
 # Configuration
 
 The following environment variables must be set for these containers:
