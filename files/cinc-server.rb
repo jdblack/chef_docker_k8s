@@ -16,11 +16,11 @@ postgresql['vip'] = ENV['POSTGRES_FQDN']
 bookshelf['storage_type'] = :sql
 
 # We rely on the external ES host for search
-#elasticsearch['enable'] = false
-#opscode_erchef['search_queue_mode'] = 'batch'
-#opscode_erchef['search_provider'] = 'opensearch'
-#opensearch['external'] = true
-#opensearch['external_url'] = ENV['SEARCH_FQDN']
-#opscode_erchef['search_auth_username'] = ENV['SEARCH_USER']
-#opscode_erchef['search_auth_password'] = ENV['SEARCH_PASS']
+elasticsearch['enable'] = false
+opscode_erchef['search_queue_mode'] = 'batch'
+opscode_erchef['search_provider'] = 'opensearch'
+opensearch['external'] = true
+opensearch['external_url'] = "http://#{ENV['SEARCH_FQDN']}:9200"
+opscode_erchef['search_auth_username'] = ENV['SEARCH_USER']
+opscode_erchef['search_auth_password'] = ENV['SEARCH_PASS']
 

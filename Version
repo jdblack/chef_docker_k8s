@@ -1,0 +1,4 @@
+VERSION=0.1.1
+APP_NAME=cinc_k8s
+REGISTRIES=registry:5000 jdblack
+
